@@ -5,6 +5,15 @@ import examen.justo.diego.motores.MotorSQL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+/*
+=========================================
+AUTOR: DIEGO JUSTO GARCIA
+GRUPO: DAM2
+EXAMEN JDBC AWS RDS
+FECHA: 02/06/2026
+=========================================
+*/
+
 public class CentroForenseDAOImpl extends AbstractDAO<CentroForense> {
     private static final String SQL_INSERT = "INSERT INTO CENTROS_FORENSES (nombre, pais, nivelSeguridad) VALUES (?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE CENTROS_FORENSES SET nombre = ?, pais = ?, nivelSeguridad = ? WHERE id = ?";
@@ -144,7 +153,7 @@ public class CentroForenseDAOImpl extends AbstractDAO<CentroForense> {
         return lstCentrosForenses;
     }
 
-    public ArrayList<CentroForense> findBypais(String pais) {
+    public ArrayList<CentroForense> findByPais(String pais) {
         ArrayList<CentroForense> lstCentrosForenses = new ArrayList<>();
         try {
             motorSQL.connect();

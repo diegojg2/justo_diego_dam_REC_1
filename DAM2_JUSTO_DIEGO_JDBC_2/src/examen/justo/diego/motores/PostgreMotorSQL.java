@@ -1,8 +1,17 @@
 package examen.justo.diego.motores;
 import java.sql.DriverManager;
 
+/*
+=========================================
+AUTOR: DIEGO JUSTO GARCIA
+GRUPO: DAM2
+EXAMEN JDBC AWS RDS
+FECHA: 02/06/2026
+=========================================
+*/
+
 public class PostgreMotorSQL extends MotorSQL {
-    private static final String URL = "jdbc:postgresql://justo-diego-dam.crhpudbckckk.us-east-1.rds.amazonaws.com:5432/postgres";
+    private static final String URL = "jdbc:postgresql://justo-diego-dam-rec-1.cqaxyso9cfak.us-east-1.rds.amazonaws.com:5432/postgres";
     private static final String USER = "postgres";
     private static final String PASSWORD = "12345678";
     private static final String DRIVER = "org.postgresql.Driver";

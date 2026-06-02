@@ -1,7 +1,14 @@
 package examen.justo.diego.dao;
 import examen.justo.diego.motores.MotorSQL;
 
-import java.util.ArrayList;
+/*
+=========================================
+AUTOR: DIEGO JUSTO GARCIA
+GRUPO: DAM2
+EXAMEN JDBC AWS RDS
+FECHA: 02/06/2026
+=========================================
+*/
 
 public abstract class AbstractDAO<T> implements DAO<T> {
     protected MotorSQL motorSQL;
@@ -11,7 +18,4 @@ public abstract class AbstractDAO<T> implements DAO<T> {
     protected void printError(Exception e) {
         System.out.println("[ERROR] " + e.getMessage());
     }
-
-    public abstract ArrayList<T> findByNombre(String nombre);
-
 }

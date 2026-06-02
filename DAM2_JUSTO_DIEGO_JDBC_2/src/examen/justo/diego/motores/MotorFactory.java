@@ -1,5 +1,14 @@
 package examen.justo.diego.motores;
 
+/*
+=========================================
+AUTOR: DIEGO JUSTO GARCIA
+GRUPO: DAM2
+EXAMEN JDBC AWS RDS
+FECHA: 02/06/2026
+=========================================
+*/
+
 public class MotorFactory {
     public static final String ORACLE = "ORACLE";
     public static final String POSTGRE = "POSTGRE";

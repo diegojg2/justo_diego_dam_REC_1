@@ -5,14 +5,23 @@ import examen.justo.diego.motores.MotorSQL;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+/*
+=========================================
+AUTOR: DIEGO JUSTO GARCIA
+GRUPO: DAM2
+EXAMEN JDBC AWS RDS
+FECHA: 02/06/2026
+=========================================
+*/
+
 public class InformeForenseDAOImpl extends AbstractDAO<InformeForense> {
-    private static final String SQL_INSERT = "INSERT INTO INFORMES_FORENSES (nombre, pais, nivelSeguridad) VALUES (?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE INFORMES_FORENSES SET nombre = ?, pais = ?, nivelSeguridad = ? WHERE id = ?";
+    private static final String SQL_INSERT = "INSERT INTO INFORMES_FORENSES (adnPositivo, nivelRiesgo, conclusion) VALUES (?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE INFORMES_FORENSES SET adnPositivo = ?, nivelRiesgo = ?, conclusion = ? WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM INFORMES_FORENSES WHERE id = ?";
     private static final String SQL_FIND = "SELECT * FROM INFORMES_FORENSES WHERE id = ?";
     private static final String SQL_FIND_ALL = "SELECT * FROM INFORMES_FORENSES ORDER BY id";
-    private static final String SQL_FIND_BY_NOMBRE = "SELECT * FROM INFORMES_FORENSES WHERE nombre = ?";
-    private static final String SQL_FIND_BY_PAIS = "SELECT * FROM INFORMES_FORENSES WHERE pais = ?";
+    private static final String SQL_FIND_BY_ADN_POSITIVO = "SELECT * FROM INFORMES_FORENSES WHERE adnPositivo = ?";
+    private static final String SQL_FIND_BY_NIVEL_RIESGO = "SELECT * FROM INFORMES_FORENSES WHERE nivelRiesgo = ?";
 
     public InformeForenseDAOImpl(MotorSQL motorSQL) {
         super(motorSQL);
@@ -36,9 +45,9 @@ public class InformeForenseDAOImpl extends AbstractDAO<InformeForense> {
         try {
             motorSQL.connect();
             motorSQL.prepare(SQL_INSERT);
-            motorSQL.getPs().setString(1, centroForense.getNombre());
-            motorSQL.getPs().setString(2, centroForense.getPais());
-            motorSQL.getPs().setString(3, centroForense.getNivelSeguridad());
+            motorSQL.getPs().setString(1, informeForense.getAdnPositivo());
+            motorSQL.getPs().setString(2, informeForense.getNivelRiesgo());
+            motorSQL.getPs().setString(3, informeForense.getConclusion());
 
             int rows = motorSQL.executeUpdate();
             System.out.println("INSERTADOS: " + rows);
@@ -54,9 +63,9 @@ public class InformeForenseDAOImpl extends AbstractDAO<InformeForense> {
         try {
             motorSQL.connect();
             motorSQL.prepare(SQL_UPDATE);
-            motorSQL.getPs().setString(1, centroForense.getNombre());
-            motorSQL.getPs().setString(2, centroForense.getPais());
-            motorSQL.getPs().setString(3, centroForense.getNivelSeguridad());
+            motorSQL.getPs().setString(1, informeForense.getAdnPositivo());
+            motorSQL.getPs().setString(2, informeForense.getNivelRiesgo());
+            motorSQL.getPs().setString(3, informeForense.getConclusion());
             motorSQL.getPs().setInt(4, id);
             int rows = motorSQL.executeUpdate();
             System.out.println("ACTUALIZADOS: " + rows);
@@ -84,39 +93,39 @@ public class InformeForenseDAOImpl extends AbstractDAO<InformeForense> {
 
     @Override
     public InformeForense find(int id) {
-        CentroForense centroForense = null;
+        InformeForense informeForense = null;
         try {
             motorSQL.connect();
             motorSQL.prepare(SQL_FIND);
             motorSQL.getPs().setInt(1, id);
             ResultSet rs = motorSQL.executeQuery();
             if (rs.next()) {
-                centroForense = mapCentroForense(rs);
+                informeForense = mapInformeForense(rs);
             }
         } catch (Exception e) {
             printError(e);
         } finally {
             motorSQL.close();
         }
-        return centroForense;
+        return informeForense;
     }
 
     @Override
     public ArrayList<InformeForense> findAll() {
-        ArrayList<CentroForense> lstCentrosForenses = new ArrayList<>();
+        ArrayList<InformeForense> lstInformesForenses = new ArrayList<>();
         try {
             motorSQL.connect();
             motorSQL.prepare(SQL_FIND_ALL);
             ResultSet rs = motorSQL.executeQuery();
             while (rs.next()) {
-                lstCentrosForenses.add(mapCentroForense(rs));
+                lstInformesForenses.add(mapInformeForense(rs));
             }
         } catch (Exception e) {
             printError(e);
         } finally {
             motorSQL.close();
         }
-        return lstCentrosForenses;
+        return lstInformesForenses;
     }
 
     /*
@@ -126,40 +135,40 @@ public class InformeForenseDAOImpl extends AbstractDAO<InformeForense> {
      */
 
 
-    public ArrayList<InformeForense> findByNombre(String nombre) {
-        ArrayList<CentroForense> lstCentrosForenses = new ArrayList<>();
+    public ArrayList<InformeForense> findByAdnPositivo(String adnPositivo) {
+        ArrayList<InformeForense> lstInformesForenses = new ArrayList<>();
         try {
             motorSQL.connect();
-            motorSQL.prepare(SQL_FIND_BY_NOMBRE);
-            motorSQL.getPs().setString(1, nombre);
+            motorSQL.prepare(SQL_FIND_BY_ADN_POSITIVO);
+            motorSQL.getPs().setString(1, adnPositivo);
             ResultSet rs = motorSQL.executeQuery();
             while (rs.next()) {
-                lstCentrosForenses.add(mapCentroForense(rs));
+                lstInformesForenses.add(mapInformeForense(rs));
             }
         } catch (Exception e) {
             printError(e);
         } finally {
             motorSQL.close();
         }
-        return lstCentrosForenses;
+        return lstInformesForenses;
     }
 
-    public ArrayList<InformeForense> findBypais(String pais) {
-        ArrayList<CentroForense> lstCentrosForenses = new ArrayList<>();
+    public ArrayList<InformeForense> findByNivelRiesgo(String nivelRiesgo) {
+        ArrayList<InformeForense> lstInformesForenses = new ArrayList<>();
         try {
             motorSQL.connect();
-            motorSQL.prepare(SQL_FIND_BY_PAIS);
-            motorSQL.getPs().setString(1, pais);
+            motorSQL.prepare(SQL_FIND_BY_NIVEL_RIESGO);
+            motorSQL.getPs().setString(1, nivelRiesgo);
             ResultSet rs = motorSQL.executeQuery();
             while (rs.next()) {
-                lstCentrosForenses.add(mapCentroForense(rs));
+                lstInformesForenses.add(mapInformeForense(rs));
             }
         } catch (Exception e) {
             printError(e);
         } finally {
             motorSQL.close();
         }
-        return lstCentrosForenses;
+        return lstInformesForenses;
     }
 
     private InformeForense mapInformeForense(ResultSet rs) throws Exception {
